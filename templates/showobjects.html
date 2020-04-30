@@ -1,0 +1,204 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/showobjects.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="s002" id="page">
+       
+      <div style="position: absolute;top: 125px;" class="alert_message"></div>
+      <form method="POST" action="showobjects" class="myform">
+        <div class="inner-form" id="innerform">
+          <div class="input-field first-wrap">
+            <div class="icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+              </svg>
+            </div>
+            <input id="search" name="location" type="text" placeholder="What are you looking for?"/>
+          </div>
+          <div class="input-field second-wrap">
+            <div class="icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
+              </svg>
+            </div>
+            <input class="datepicker" name="date" id="depart" type="text" placeholder="Select Date" required />
+          </div>
+         <div class="input-field third-wrap">
+            <div class="icon-wrap">
+              <img src="{{url_for('static', filename='images/clock.png')}}" width="13" height="13">
+            </div>
+            <input class="timepicker" name="time" id="time" type="text" placeholder="Select Time" required />
+          </div>
+          <div class="input-field fouth-wrap">
+            <div class="icon-wrap">
+              <img src="{{url_for('static', filename='images/finger.png')}}" width="13" height="13">
+            </div>
+            <select data-trigger="" name="choices-single-defaul">
+              <option placeholder="" value="All">All</option>
+              <option value="Person_Count">Person</option>
+              <option value="Bicycle_Count">Bicycle</option>
+              <option value="Car_Count">Car</option>
+              <option value="Bike_Count">Bike</option>
+              <option value="Bus_Count">Bus</option>
+              <option value="Truck_Count">Truck</option>
+            </select>
+          </div>
+          <div class="input-field fifth-wrap">
+            <button class="btn-search" type="submit" >SEARCH</button>
+          </div>
+        </div>
+      </form>
+      {% if flag==0 and objects=="All" %}
+      <div class="container">
+              
+      <table class="table table-hover" style="position: absolute;top: 200px;right: 0;left: 0;background-color: white;">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Person</th>
+            <th>Bicycle</th>
+            <th>Car</th>
+            <th>Bike</th>
+            <th>Bus</th>
+            <th>Truck</th>
+            <th>Frame</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+          <tr>
+            <td>Whitefield</td>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            <td>{{item[3]}}</td>
+            <td>{{item[4]}}</td>
+            <td>{{item[5]}}</td>
+            <td>{{item[6]}}</td>
+            <td>{{item[7]}}</td>
+            <td><a href="{{url_for('static',filename='images/'+item[8])}}" class="image-link">Show Frame</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+      {% elif flag==0 and message!="Empty" %}
+
+       <div class="container">
+              
+      <table class="table table-hover" style="position: absolute;top: 200px;right: 0;left: 0;background-color: white;">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th style="text-align: center;">{{objects}}</th>
+            <th>Frame</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+          <tr>
+            <td>Whitefield</td>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td style="text-align: center;">{{item[2]}}</td>
+            <td><a href="{{url_for('static',filename='images/'+item[3])}}" class="image-link">Show Frame</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+      {% endif %}
+    </div>
+    <button type="button" style="display: none;"  id="message_button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"></button>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Database Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                No values fetched..
+                Please try with correct Date and Time..
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    <script src="{{url_for('static', filename='js/extention/choices.js')}}"></script>
+    <script src="{{url_for('static', filename='js/extention/flatpickr.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script>
+      flatpickr(".datepicker",
+      {});
+      flatpickr(".timepicker",
+      {
+       enableTime: true,
+       noCalendar: true,
+       dateFormat: "H:i",
+       time_24hr: true
+      });
+      const choices = new Choices('[data-trigger]',
+      {
+        searchEnabled: false,
+        itemSelectText: '',
+      });
+
+      if("{{flag}}"==0){
+        $("#innerform").css({"position": "absolute", "top": "20px","right":"0"});
+      }
+
+      $('.myform').submit(function(event){
+        if($('#depart').val()==""){
+          if($('#time').val()==""){
+            $('.alert_message').html('<div class="alert alert-warning alert-dismissible"><a href="#" class="close" data-dismiss="alert"aria-label="close">&times;</a><strong>Warning! </strong>Enter Valid date and time..</div>');
+             event.preventDefault();
+          }
+          else {
+             $('.alert_message').html('<div class="alert alert-warning alert-dismissible"><a href="#" class="close" data-dismiss="alert"aria-label="close">&times;</a><strong>Warning! </strong>Enter Valid date..</div>'); 
+             event.preventDefault();
+           }
+         }
+        else{
+          if($('#time').val()==""){
+            $('.alert_message').html('<div class="alert alert-warning alert-dismissible"><a href="#" class="close" data-dismiss="alert"aria-label="close">&times;</a><strong>Warning! </strong>Enter Valid time..</div>');
+            event.preventDefault();
+          }
+         //else{
+            //$("#innerform").css({"position": "absolute", "top": "20px","right":"0"});
+           // event.preventDefault();
+         //}
+        }
+      });
+
+      $(document).ready(function() {
+        if("{{message}}"=="Empty")
+           $('#message_button').click();
+        $('.image-link').magnificPopup({type:'image'});
+      });
+    </script>
+  </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
